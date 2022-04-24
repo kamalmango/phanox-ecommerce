@@ -10,6 +10,30 @@ export const StateContext = ({ children }) => {
   const [totalQuantities, setTotalQuantities] = useState(0);
   const [qty, setQty] = useState(1);
 
+  useEffect(() => {
+    const cartFromLocalStorage = JSON.parse(
+      localStorage.getItem("cartItems") || "[]"
+    );
+
+    const totalQtyFromLocalStorage = JSON.parse(
+      localStorage.getItem("totalQuantities") || "0"
+    );
+
+    const totalPriceFromLocalStorage = JSON.parse(
+      localStorage.getItem("totalPrice") || "0"
+    );
+
+    setCartItems(cartFromLocalStorage);
+    setTotalQuantities(totalQtyFromLocalStorage);
+    setTotalPrice(totalPriceFromLocalStorage);
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    localStorage.setItem("totalQuantities", JSON.stringify(totalQuantities));
+    localStorage.setItem("totalPrice", JSON.stringify(totalPrice));
+  }, [cartItems, totalQuantities]);
+
   // let foundProduct;
 
   const onAdd = (product, quantity) => {
